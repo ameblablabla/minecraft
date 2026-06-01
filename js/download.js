@@ -1,8 +1,18 @@
 document.getElementById('download-version-1')?.addEventListener('click', () => {
-  const url = window.OBSESSED_DOWNLOAD_URL;
-  if (url) {
-    window.open(url, '_blank');
-  } else {
-    alert('Ссылка для скачивания не задана. Откройте js/config.js и укажите OBSESSED_DOWNLOAD_URL.');
+  const url = (window.OBSESSED_DOWNLOAD_URL || '').trim();
+  if (!url) {
+    alert(
+      'Ссылка на архив ещё не настроена.\n\n' +
+        'Откройте js/config.js в репозитории и укажите OBSESSED_DOWNLOAD_URL — прямую ссылку на .zip с .exe.'
+    );
+    return;
   }
+
+  const a = document.createElement('a');
+  a.href = url;
+  a.rel = 'noopener';
+  a.target = '_blank';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
 });
